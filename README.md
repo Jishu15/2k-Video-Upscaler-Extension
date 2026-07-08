@@ -1,5 +1,8 @@
 # 1440p Video Upscaler
 
+[![GitHub release](https://img.shields.io/github/v/release/Jishu15/2k-Video-Upscaler-Extension)](https://github.com/Jishu15/2k-Video-Upscaler-Extension/releases)
+[![License](https://img.shields.io/github/license/Jishu15/2k-Video-Upscaler-Extension)](LICENSE)
+
 A Chrome extension that automatically upscales 720p and 1080p videos to **2560×1440 (1440p)** in real-time. Uses WebGL2 for GPU-accelerated rendering with a Canvas 2D fallback, all controlled entirely from the extension popup — no interaction with the web page required.
 
 ## Features
@@ -32,11 +35,23 @@ The entire pipeline runs inside the content script injected into every page:
 
 ## Installation
 
-1. Open Google Chrome (or any Chromium-based browser).
-2. Navigate to `chrome://extensions`.
-3. Enable **Developer mode** using the toggle in the top-right corner.
-4. Click **Load unpacked** and select the `video-upscaler-extension` folder.
-5. The extension icon will appear in the toolbar. Pin it for easy access.
+### Chrome Web Store
+Install with one click once published:
+> **Link:** https://chromewebstore.google.com/... *(pending review)*
+
+### Manual Install (Unpacked)
+1. [Download the latest ZIP](https://github.com/Jishu15/2k-Video-Upscaler-Extension/releases) from Releases.
+2. Extract the ZIP to a folder.
+3. Open Chrome/Edge/Brave/Opera and go to `chrome://extensions`.
+4. Enable **Developer mode** (top-right toggle).
+5. Click **Load unpacked** and select the extracted folder.
+6. Pin the extension icon from the toolbar.
+
+### Build from Source
+```powershell
+.\scripts\build.ps1
+# Output: dist/1440p-video-upscaler-v1.0.0.zip
+```
 
 ## Usage
 
@@ -51,22 +66,23 @@ Click the extension icon in the toolbar to open the popup:
 ## Project Structure
 
 ```
-video-upscaler-extension/
+2k-video-upscaler-extension/
 ├── manifest.json              # Extension manifest (Manifest V3)
-│                              # Declares permissions, content scripts, service worker
-├── background.js              # Service worker — sets default settings on install
-├── content.js                 # Content script (~470 lines)
-│                              #   - Video scanning & overlay management
-│                              #   - WebGLUpscaler class (WebGL2 renderer)
-│                              #   - CanvasUpscaler class (Canvas 2D fallback)
-│                              #   - Message handling for popup communication
-├── popup.html                 # Popup HTML — layout, controls, status display
-├── popup.js                   # Popup logic — loads/stores settings, sends messages
-├── styles.css                 # Minimal page styles (mostly unused; styles are inline)
+├── background.js              # Service worker — defaults on install
+├── content.js                 # Content script — scanning, overlay, renderers, messaging
+├── popup.html                 # Popup UI
+├── popup.js                   # Popup logic — settings, messaging
+├── styles.css                 # Page styles (mostly inline on canvas)
+├── STORE_LISTING.md           # Chrome Web Store listing guidance
+├── scripts/
+│   └── build.ps1              # Packaging script (ZIP + unpacked)
+├── .github/
+│   └── workflows/
+│       └── release.yml        # Auto-build on version tag
 ├── icons/
-│   ├── icon16.png             # 16×16 toolbar icon
-│   ├── icon48.png             # 48×48 extensions page icon
-│   └── icon128.png            # 128×128 store/install icon
+│   ├── icon16.png
+│   ├── icon48.png
+│   └── icon128.png
 └── README.md
 ```
 
@@ -116,6 +132,24 @@ WebGL2 is required for the GPU-accelerated renderer. If unavailable, the extensi
 - Upscaling is done per-frame inside `requestAnimationFrame`, so it only runs when the tab is visible and the page is actively painting
 - The WebGL2 renderer is significantly more performant than the Canvas 2D fallback, especially for 1080p→1440p upscaling
 - Sharpening is intentionally kept subtle by design (adaptive gain control) to avoid amplifying compression artifacts or noise in low-detail areas
+
+## Deployment
+
+### GitHub Releases
+Push a version tag to trigger the automated build:
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+The [Build & Release](.github/workflows/release.yml) workflow packages the extension into a ZIP and creates a GitHub Release.
+
+### Chrome Web Store
+1. Prepare assets — see [`STORE_LISTING.md`](STORE_LISTING.md) for screenshot specs and descriptions.
+2. Run `.\scripts\build.ps1` or download the ZIP from Releases.
+3. Go to the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole).
+4. Create a new item, upload the ZIP, fill in the listing.
+5. Pay the one-time $5 developer registration fee.
+6. Submit for review.
 
 ## License
 
