@@ -1,7 +1,7 @@
 # 1440p Video Upscaler
 
 [![GitHub release](https://img.shields.io/github/v/release/Jishu15/2k-Video-Upscaler-Extension)](https://github.com/Jishu15/2k-Video-Upscaler-Extension/releases)
-[![License](https://img.shields.io/github/license/Jishu15/2k-Video-Upscaler-Extension)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 A Chrome extension that automatically upscales 720p and 1080p videos to **2560×1440 (1440p)** in real-time. Uses WebGL2 for GPU-accelerated rendering with a Canvas 2D fallback, all controlled entirely from the extension popup — no interaction with the web page required.
 
