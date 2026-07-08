@@ -153,4 +153,4 @@ The [Build & Release](.github/workflows/release.yml) workflow packages the exten
 
 ## License
 
-MIT
+MIT — see [LICENSE](LICENSE) for details.
